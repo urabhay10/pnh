@@ -36,6 +36,7 @@ class Register extends Component {
       alert(register.error)
     } else if(register.token){
       this.props.setToken(register.token);
+      localStorage.setItem('token',register.token)
       this.setState({ redirect: true })
     }
   };

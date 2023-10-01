@@ -9,10 +9,10 @@ export default class EditForm extends Component {
             isPublic: this.props.isPublic,
         };
     }
-    deletenote= async (e)=>{
+    deletenote = async (e) => {
         console.log('handling submit')
         setTimeout(async () => {
-            const { token,noteid } = this.props;
+            const { token, noteid } = this.props;
             console.log(token);
             await fetch('http://localhost:8000/notes/delete', {
                 method: 'post',
@@ -29,9 +29,9 @@ export default class EditForm extends Component {
     handleSubmit = async (e) => {
         console.log('handling submit')
         e.preventDefault();
-        setTimeout(async () => {
-            const { title, content,isPublic } = this.state;
-            const { token,noteid } = this.props;
+        const { title, content, isPublic } = this.state;
+        if (title === this.props.title && content === this.props.content && isPublic === this.props.isPublic) { } else {
+            const { token, noteid } = this.props;
             console.log(token);
             await fetch('http://localhost:8000/notes/edit', {
                 method: 'post',
@@ -39,10 +39,10 @@ export default class EditForm extends Component {
                     'Content-type': 'application/json',
                     'Authorization': `${token}`
                 },
-                body: JSON.stringify({ title, content,isPublic,noteid })
+                body: JSON.stringify({ title, content, isPublic, noteid })
             })
             this.setState({ title: '', content: '', isPublic: false })
-        }, 1000);
+        }
         this.props.closeModal();
     }
     handleChange = (e) => {
@@ -54,6 +54,7 @@ export default class EditForm extends Component {
     render() {
         return (
             <div className='modal modal-content'>
+                <div className='text-right fw-bolder btn' onClick={()=>{this.props.closeModal()}}>{'Cancel'}</div>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group mt-3">
                         <input
@@ -64,7 +65,7 @@ export default class EditForm extends Component {
                             value={this.state.title}
                             onChange={this.handleChange}
                             required
-                            style={{ width: '70%' }}
+                            style={{ width: '100%' }}
                             placeholder='Title'
                             title='title of your note'
                         />
@@ -81,7 +82,7 @@ export default class EditForm extends Component {
                             required
                             placeholder='Write something here'
                             rows='18'
-                            style={{ width: '70%' }}
+                            style={{ width: '100%' }}
                             title='your note content'
                         />
                     </div>
@@ -98,7 +99,7 @@ export default class EditForm extends Component {
                             Make Public
                         </label>
                     </div>
-                    <button className='text-right fw-bolder btn' type='submit'>{this.state.isPublic===true?'Publish':'Save note'}</button>
+                    <button className='text-right fw-bolder btn' type='submit'>{this.state.isPublic === true ? 'Publish' : 'Save note'}</button>
                     <div className='text-right fw-bolder btn' onClick={this.deletenote}>{'Delete'}</div>
                 </form>
             </div>

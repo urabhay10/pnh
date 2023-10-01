@@ -16,3 +16,10 @@
     height: 100vh;
     right: 0;
 }
+
+.spinner-border{
+    position: fixed;
+    top: 45%;
+    left: 45%;
+    transform: scale();
+}

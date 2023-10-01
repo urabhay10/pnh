@@ -35,6 +35,7 @@ class Login extends Component {
       alert(login.error)
     } else if(login.token){
       this.props.setToken(login.token)
+      localStorage.setItem('token',login.token)
       this.setState({ redirect: true })
     }
   };

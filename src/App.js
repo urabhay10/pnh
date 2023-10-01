@@ -11,8 +11,13 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: '',
+      token: localStorage.getItem('token'),
     };
+  }
+  async componentDidMount() {
+    if (localStorage.getItem('token')) {
+      this.setToken(localStorage.getItem('token'))
+    }
   }
   setToken = (newToken) => {
     this.setState({ token: newToken });
@@ -23,11 +28,12 @@ export default class App extends Component {
         <Router>
           <Navbar />
           <Routes>
-            <Route exact path='/' element={this.state.token===''?<Home />:<Profile token={this.state.token}/>} />
-            <Route exact path='/register' element={<Register setToken={this.setToken}/>}/>
-            <Route exact path='/login' element={<Login setToken={this.setToken}/>}/>
+            <Route exact path='/' element={this.state.token === '' ? <Home /> : <Profile token={this.state.token} />} />
+            <Route exact path='/home' element={<Home />} />
+            <Route exact path='/register' element={<Register setToken={this.setToken} />} />
+            <Route exact path='/login' element={<Login setToken={this.setToken} />} />
             <Route exact path='/aboutpage' element={<Aboutpage />} />
-            <Route path='/profile/*' element={<Profile  token={this.state.token}/>}/>
+            <Route path='/profile/*' element={<Profile token={this.state.token} />} />
           </Routes>
         </Router>
       </div>

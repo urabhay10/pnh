@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import CreateNote from './CreateNote';
 import AllNotes from './AllNotes';
 import ShareNotes from './ShareNotes';
-import UpdateAccount from './UpdateAccount';
 import Browse from './Browse';
 
 class Profile extends Component {
@@ -15,36 +14,37 @@ class Profile extends Component {
             currenttab: 'view',
         };
     }
+    logout = () => {
+        localStorage.removeItem('token')
+    }
     changeCurrentTab = (tabname) => {
         this.setState({ currenttab: tabname });
     }
     async componentDidMount() {
-        try {
-            const { token } = this.props;
-            console.log(token)
-            const response = await fetch('http://localhost:8000/users/profile', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `${token}`
+        setTimeout(async() => {
+            try {
+                const response = await fetch('http://localhost:8000/users/profile', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `${localStorage.getItem('token')}`
+                    }
+                });
+                const userData = await response.json();
+                if (!userData.username) {
+                    throw new Error('Failed to fetch user data');
                 }
-            });
-            console.log('this is response' + response)
-            const userData = await response.json();
-            console.log('this is userdata' + userData)
-            if (!userData.username) {
-                throw new Error('Failed to fetch user data');
+                this.setState({
+                    userData,
+                    isLoading: false,
+                });
+            } catch (error) {
+                this.setState({
+                    isLoading: false,
+                });
             }
-            this.setState({
-                userData,
-                isLoading: false,
-            });
-        } catch (error) {
-            console.error(error);
-            this.setState({
-                isLoading: false,
-            });
-        }
+        },0);
+
     }
     render() {
         const { userData, isLoading } = this.state;
@@ -81,24 +81,27 @@ class Profile extends Component {
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to="" className="nav-link text-white" onClick={() => { this.changeCurrentTab('update') }}>
-                                        Update Account Details
+                                    <Link to="/home" className="nav-link text-white" onClick={() => { this.logout(); }}>
+                                        Log out
                                     </Link>
                                 </li>
                             </ul>
                         </nav>
                     </div>
                     <div className='tab'>
-                        {this.state.currenttab === 'create' ? <CreateNote token={this.props.token}/> : <></>}
-                        {this.state.currenttab === 'view' ? <AllNotes token={this.props.token}/> : <></>}
-                        {this.state.currenttab === 'share' ? <ShareNotes token={this.props.token} redirecttopublic={this.changeCurrentTab}/> : <></>}
-                        {this.state.currenttab === 'browse' ? <Browse token={this.props.token}/> : <></>}
-                        {this.state.currenttab === 'update' ? <UpdateAccount token={this.props.token}/> : <></>}
+                        {this.state.currenttab === 'create' ? <CreateNote token={this.props.token} /> : <></>}
+                        {this.state.currenttab === 'view' ? <AllNotes token={this.props.token} /> : <></>}
+                        {this.state.currenttab === 'share' ? <ShareNotes token={this.props.token} redirecttopublic={this.changeCurrentTab} /> : <></>}
+                        {this.state.currenttab === 'browse' ? <Browse token={this.props.token} /> : <></>}
                     </div>
                 </div>
             )
         } else if (isLoading) {
-            return <div onClick={this.componentDidMount}>Loading...</div>;
+            return (
+                <div class="spinner-border text-danger" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            );
 
         } else {
             return (

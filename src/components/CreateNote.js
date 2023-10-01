@@ -12,26 +12,23 @@ export default class CreateNote extends Component {
     handleSubmit = async (e) => {
         console.log('handling submit')
         e.preventDefault();
-        setTimeout(async () => {
-            const { title, content,isPublic } = this.state;
-            const { token } = this.props;
-            console.log(token);
-            let savedNote = await fetch('http://localhost:8000/notes/create', {
-                method: 'post',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': `${token}`
-                },
-                body: JSON.stringify({ title, content,isPublic })
-            })
-            let data = await savedNote.json();
-            console.log(data);
-            if (!data.title) {
-                alert('unknown error occured')
-            }
-            this.setState({ title: '', content: '', isPublic: false })
-        }, 1000);
-
+        const { title, content, isPublic } = this.state;
+        const { token } = this.props;
+        console.log(token);
+        let savedNote = await fetch('http://localhost:8000/notes/create', {
+            method: 'post',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `${token}`
+            },
+            body: JSON.stringify({ title, content, isPublic })
+        })
+        let data = await savedNote.json();
+        console.log(data);
+        if (!data.title) {
+            alert('unknown error occured')
+        }
+        this.setState({ title: '', content: '', isPublic: false })
     }
     handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -86,7 +83,7 @@ export default class CreateNote extends Component {
                             Make Public
                         </label>
                     </div>
-                    <button className='text-right fw-bolder btn' type='submit'>{this.state.isPublic===true?'Publish':'Save note'}</button>
+                    <button className='text-right fw-bolder btn' type='submit'>{this.state.isPublic === true ? 'Publish' : 'Save note'}</button>
                 </form>
             </>
         )
