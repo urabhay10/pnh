@@ -6,6 +6,7 @@ const User = require('../models/User'); // Import the User model
 const jwtMiddleware = (req, res, next) => {
     const token = req.headers.authorization;
     if (!token) {
+        console.log('no token provided')
         return res.status(401).json({ message: 'No token provided' });
     }
 
@@ -24,7 +25,6 @@ const jwtMiddleware = (req, res, next) => {
 
             // Store the entire user object in req.user
             req.user = user;
-
             next();
         } catch (error) {
             res.status(500).json({ error: 'Server error' });

@@ -1,0 +1,18 @@
+.profile-content{
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar-container{
+    position: absolute;
+    left: 0;
+    background: transparent;
+}
+.tab{
+    width: 78vw;
+    min-width: 200px;
+    max-width: 80vw;
+    position: absolute;
+    height: 100vh;
+    right: 0;
+}

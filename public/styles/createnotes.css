@@ -1,0 +1,17 @@
+/* .new-note{
+    background-color: transparent;
+    border: none;
+}
+.new-note:hover{
+    background-color: transparent;
+    border: none;
+} */
+
+.title-area{
+    border: 1px solid black;
+    border-radius: 2%;
+}
+.content-area{
+    border: 1px solid black;
+    border-radius: 2%;
+}
