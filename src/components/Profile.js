@@ -56,8 +56,8 @@ class Profile extends Component {
                             className="bg-primary text-white d-flex flex-column align-items-start fixed"
                             style={{ width: '20vw', height: '100vh', minWidth: '75px', maxWidth: '250px' }}
                         >
-                            <div className="p-4">
-                                <h4>Hey there, {this.state.userData.username}</h4>
+                            <div className="p-2">
+                                <h6>Hey there, {this.state.userData.username}</h6>
                             </div>
                             <ul className="nav flex-column">
                                 <li className="nav-item">
