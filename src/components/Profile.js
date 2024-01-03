@@ -98,8 +98,8 @@ class Profile extends Component {
             )
         } else if (isLoading) {
             return (
-                <div class="spinner-border text-danger" role="status">
-                    <span class="sr-only"></span>
+                <div className="spinner-border text-danger" role="status">
+                    <span className="sr-only"></span>
                 </div>
             );
 
